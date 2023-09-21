@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Timer</title>
+</head>
+<style>
+    /* CSS styles here */
+    
+    body {
+        background-color: gray;
+        margin: 50px;
+        padding: 5px;
+    }
+    
+    .container {
+        text-align: center;
+        margin: 10px;
+    }
+    /* Style for buttons */
+    
+    .button {
+        padding: 10px 20px;
+        background-color: DodgerBlue;
+        color: #fff;
+        border: none;
+        cursor: pointer;
+    }
+    /* Style the timer text */
+    
+    #text1,
+    #text2 {
+        font-size: 24px;
+        font-weight: bold;
+        color: red;
+    }
+    /* Style the input field */
+    
+    .input {
+        width: 150px;
+        /* Increase the width as needed */
+        height: 30px;
+        /* Increase the height as needed */
+        padding: 5px;
+        font-size: 16px;
+    }
+</style>
+<!-- CSS styles end here  -->
+
+<!-- HTML CODE HERE -->
+
+<body>
+
+    <!-- setimeout reverse timer -->
+
+    <h3 align="center">Reverse Timer - setTimeout</h3>
+    <div class="container">
+        <div id="text1" style="color: red">00m:00s</div>
+        <input type="number" id="time1" placeholder="Enter the Time"><br><br>
+        <button id="startTimeout" class="button">Start setTimeout</button>
+        <button id="pauseTimeout" class="button">Pause setTimeout</button>
+        <button id="resumeTimeout" class="button">Resume setTimeout</button>
+    </div><br><br>
+
+    <!-- setinterval reverse timer -->
+
+    <h3 align="center">Reverse Timer - setInterval</h3>
+    <div class="container">
+        <div id="text2" style="color: red">00m:00s</div>
+        <input type="number" id="time2" placeholder="Enter the Time"><br><br>
+        <button id="startInterval" class="button">Start setInterval</button>
+        <button id="pauseInterval" class="button">Pause setInterval</button>
+        <button id="resumeInterval" class="button">Resume setInterval</button>
+    </div>
+
+    <!-- javascript code star here -->
+    <script>
+        let timeout;
+        let interval;
+        let a = 0;
+        let b = 0;
+        let pauseTimeout = false;
+        let pauseInterval = false;
+
+        // useing settimeout injavascript//
+
+        function timerTimeout() {
+            if (a < 0) {
+                alert("negative number is not allow")
+            }
+            if (a >= 0 && !pauseTimeout) {
+                const minutes = Math.floor(a / 60);
+                const seconds = a % 60;
+                document.getElementById('text1').innerHTML = `${minutes.toString().padStart(2, '0')}m:${seconds.toString().padStart(2, '0')}s`;
+                a = a - 1;
+                if (a >= 0) {
+                    timeout = setTimeout(timerTimeout, 1000);
+                } else if (a < 0) {
+                    alert('setTimeout: The time has expired');
+                }
+                
+            }
+        }
+
+        // star button settimeout//
+
+        document.getElementById('startTimeout').addEventListener('click', () => {
+            a = parseInt(document.getElementById('time1').value);
+            timerTimeout(); // Start the setTimeout timer.
+        });
+
+        // pause button settimeout//
+
+        document.getElementById('pauseTimeout').addEventListener('click', () => {
+            pauseTimeout = true;
+        });
+
+        // resume button settimeout//
+
+        document.getElementById('resumeTimeout').addEventListener('click', () => {
+            pauseTimeout = false;
+            timerTimeout();
+        });
+
+        // useing setinteval injavascript//
+
+
+
+        function startInterval() {
+            interval = setInterval(function() {
+                if (b >= 0 && !pauseInterval) {
+                    const minutes = Math.floor(b / 60);
+                    const seconds = b % 60;
+                    document.getElementById('text2').innerHTML = `${minutes.toString().padStart(2, '0')}m:${seconds.toString().padStart(2, '0')}s`;
+                    b = b - 1;
+                    if (b < 0) {
+                        clearInterval(interval); // here setinterval is clear//
+                        alert('setInterval: The time has expired');
+
+                    }
+                } else if (b < 0) {
+                    alert("negative number is not allow")
+                    clearInterval(interval);
+                }
+            }, 1000); // Change the interval to 1000ms (1 second) for real-time countdown.
+        }
+
+        // star button setinterval//
+
+        document.getElementById('startInterval').addEventListener('click', () => {
+            b = parseInt(document.getElementById('time2').value);
+            startInterval(); // Start the setInterval timer.
+        });
+
+        // pause button setinterval//
+
+        document.getElementById('pauseInterval').addEventListener('click', () => {
+            pauseInterval = true;
+        });
+
+        // resume button setinterval//
+
+        document.getElementById('resumeInterval').addEventListener('click', () => {
+            pauseInterval = false;
+            startInterval();
+        });
+    </script>
+    <!-- javascript code end here -->
+</body>
+
+</html>
